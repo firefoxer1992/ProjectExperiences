@@ -1,0 +1,49 @@
+﻿图书管理系统
+
+需求：
+0.创建数据库; (完成)
+1.从数据库验证用户能否登陆;  (完成)
+2.完成图书的借阅、归还。(完成)尝试用分页。3条记录分一页。用ajax实现
+3.新用户注册 (完成)
+4.尝试自己写页面。
+
+知识库：
+maven、struts2、spring、hibernate
+servlet、jsp、html、css、js
+
+数据库sql：
+用户表：
+    userId，name，sex，age，borrowedCount，date，password
+图书表：
+    bookId，bookType，bookName，bookAuthor，bookPrice
+    
+    
+    
+创建数据表：
+  
+
+mysql> create table user(
+ user_id int(5) not null primary key auto_increment,
+ name varchar(20) not null,
+ sex char(10) not null,
+ age int(5) ,
+ borrowedCount int(5),
+ date datetime,
+ password varchar(20) not null
+ );
+日期格式：
+datetime       8 bytes   YYYY-MM-DD HH:MM:SS 
+ 
+ create table book(
+   book_id int(5) not null primary key auto_increment,
+   Name varchar(20) not null,
+   Type varchar(20) not null,      
+   Author varchar(20) not null,
+   Publishers varchar(20) ,
+   BorrowDate datetime
+ );
+ 
+ 插入数据：
+insert into user values(0,'lin','male',24,10,'2017-06-26 22:00:00','lin');
+
+insert into book values(7,'设计模式','计算机技术', 'John Vlissides','机械工业出版社','2017-07-18 21:00:00');

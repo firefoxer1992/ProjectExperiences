@@ -1,0 +1,9 @@
+报价管理系统:
+
+一、学习收获：
+1.JPA在配置persistence.xml时，要添加一个JPA Provider.
+2.jar包的依赖管理，还是用Maven比较好
+3.设置classes、artifacts的输出路径
+二、知识点：
+Maven,注解，Hibernate,Struct，Guava,反射
+

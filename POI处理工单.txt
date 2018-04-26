@@ -1,0 +1,79 @@
+待加强的知识：
+1.IO的异常处理。流的理解。
+2.正则表达式。
+3.日期工具类。
+4.多线程.
+5.Guava、Commons-lang第三方库.
+
+bug:
+1.没有对号码,DoneCode等进行trim操作，存在空格时就会可能报错。
+2.冻结窗口，或者有高级特效的excel，有时会报错.
+3.文件操作不够成熟..
+4.17030981107  DoneCode:2907000013457381	日期：2017-08-31 01:10:45
+该工单既没有状态，也没有报文。
+5.第一行如果是空的。。那么得到的row可能是null，调用方法时会报空指针异常。
+
+注意点:
+1.在读取Excel内容和写入内容时，要做异常处理。try{}catch(){}
+2.最好读取每一行内容，就写入数据，不然进程关闭后数据不会填入Excel内.
+3.号码信息写成Bean类，获取号码和DoneCode、日期后，就通过类计算出TransIdo和OprNumber.
+不要和POI类有太多的耦合。
+4.读取完流后，记得关闭流。还得关闭workbook.
+5.日期可能出现多次，只需要读取第一次出现的日期就可以了
+
+Excel路径:
+"C:\\Users\\lenovo\\Desktop\\ExcelTest.xlsx"
+
+思考：
+一.如何处理单元格格式?
+
+1.一般都采用CELL_TYPE_STRING和CELL_TYPE_NUMERIC类型，因为在Excel文件中只有字符串和数字。如果Cell的Type为CELL_TYPE_NUMERIC时，还需要进一步判断该Cell的数据格式，因为它有可能是Date类型，在Excel中的Date类型也是以Double类型的数字存储的。Excel中的Date表示当前时间与1900年1月1日相隔的天数，所以需要调用HSSFDateUtil的isCellDateFormatted方法，判断该Cell的数据格式是否是Excel Date类型。如果是，则调用getDateCellValue方法，返回一个Java类型的Date。
+
+2.Double类型的数值，如果超过了2^31-1，那么强制转型为int也会出现精度差距.
+考虑BigDecimal类型进行处理.
+而日期格式在Excel中也是以数值格式存储的。比如2017年7月29日实际上是存储为2017/7/29  17:09:18
+
+3.写入数据到单元格，要注意避免空指针的情况.
+
+4.日期格式。主要有两种"2017/8/17  17:09:18"和"2017-08-17  17:09:18"格式.
+如何用正则表达式正确识别日期所在的列，并正确提取日期(201708)?
+
+5.指定单元格写入数据   
+Cell cell=row.createCell(resultColumn, CellType.STRING);
+cell.setCellValue(" ");
+获取单元格内容
+Cell cell = row.getCell(column);
+String cellValue= PoiUtil.getCellString(cell);
+
+二、多线程实现实时显示内容
+1.新建线程
+new Thread(new Runnable(){
+
+
+ }).start();
+2.SwingUtils
+SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						
+					}
+				});
+
+3.SwingWorker
+
+
+测试订单：
+17052893260	2900000012711121	2017年8月1日	省应答失败，请转售商重新下发
+17030982857	2907000011734705	2017年7月16日	等待报竣
+
+
+遇到的主要问题：
+1.IOException: Cannot write data, document seems to have been closed already
+为什么莫名奇秒文件就关闭了？
+  FileOutputStream fos=new FileOutputStream(file);
+  fos.flush();
+  wb.write(fos);
+  
+  改变try，catch的位置要准确高效。
+2.操作inputStream的同时，能够同时操作outputStrem吗？
+可以。

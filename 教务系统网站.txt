@@ -1,0 +1,9 @@
+教务系统网站
+
+账号：admin
+密码：123456
+
+收获：
+1.Shiro安全框架，bootStrap的样式框架
+2.分层清晰。
+3.MultipartFile上传文件.

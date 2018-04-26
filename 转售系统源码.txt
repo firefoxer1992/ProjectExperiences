@@ -1,0 +1,8 @@
+转售系统3 疑问：
+1.service层的CustomerClient.java属于Spring Cloud的注解@FeignClient
+
+
+
+缺失知识点：
+0.commons-lang3的Util包的工具类。
+1.解析xml，解析json。

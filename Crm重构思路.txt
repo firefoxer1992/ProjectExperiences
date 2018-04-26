@@ -1,0 +1,46 @@
+重构：减少冗余,提高性能，低耦合
+
+大体思路：
+0.尽量减少warnning
+1.经常出现的字符串，用大写常量代替
+2.重复出现的模块，写成简洁的方法
+3.清除不必要的String等变量
+4.分离视图层和模型层
+5.移除大量丑陋的if else,尝试用HashMap,枚举，多态，或者设计模式解决。
+6.将对象的属性汇集到类java bean里面
+
+
+具体细节：
+0.与数据库交互的模板，总是重复地通过static代码块来加载数据库properties。。
+这是重复代码，思考如何复用。
+0.相同的操作不要重复写，不同之处才采用分支。比如：
+  logger.info("  报竣成功");
+  outputStr=outputStr+"序号："+orderNumber+" 手机号码:"+phoneNumber+"  报竣状态:报竣成功\n";
+  Label label=new Label(resultColumn,i,STATUS_SUCCEED);
+  ws.addCell(label);
+  
+1.为什么所有的方法都 throws Exception?
+2.工厂模式，一个抽象类，多个具体产品类。。写成bean类也好
+3.报竣状态的常量池。
+4.添加模组变更1010，DoneCode最后一位查询,WriteExcel等功能
+5.如何改进？
+if(str.length()==11 && StringUtils.isNumeric(str)) {
+                phoneNumberColumn=j;
+            }else if(str.contains("-") || str.contains("月") || str.contains("/")){
+                dateColumn=j;
+                break;
+            }else {}
+测试用例(包括下发和查询)：
+0.报竣成功9,或者rspCode为0000
+1.报竣失败-1，省应答失败22
+2.等待报竣23 (包括有无报文两种情况)
+3.前几个月的工单ID
+4.后续存在互斥工单
+
+Bug:
+0.历史工单查不到最新的TransIdo。。比如201607的工单，在201703重发，重发后查到的流水号其实不是最新的.
+select a.VM_ORDER_ID,a.OPERATE_OBJECT,a.COMPLETE_DATE,a.I_UATMIX_01+a.I_UATMIX_02+a.I_UATMIX_03+a.I_UATMIX_04 as UATMIX,a.REGION_ID,a.RESULT from I_OPEN_UATMIX_H_531_201611 a where a.OPERATE_OBJECT='531000008045552'   
+union all select a.VM_ORDER_ID,a.OPERATE_OBJECT,a.COMPLETE_DATE,a.I_UATMIX_01+a.I_UATMIX_02+a.I_UATMIX_03+a.I_UATMIX_04 as UATMIX,a.REGION_ID,a.RESULT from I_OPEN_UATMIX_H_531_201703 a where a.OPERATE_OBJECT='531000008045552'
+1.比如在201703，查询201609的工单，如果该工单在201612重发状态为-1，但是rspCode是0000，那么在后续处理中，有可能会重发该工单。。
+但是如果每一个月的报文表都去查，又太费时了。。
+

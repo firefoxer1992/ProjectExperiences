@@ -1,0 +1,22 @@
+收获：
+1.Controllers层的方法返回对象，@ResponseBody会自动解析成json格式
+2.Controller层返回ModelAndView方法。能够解析出对应的视图。
+	@RequestMapping(value = "/user", method = RequestMethod.GET)
+	public ModelAndView getTeemo(Integer id) {
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("userName", userService.selectByPrimaryKey(id)
+				.getName());
+		modelAndView.addObject("userDesc", userService.selectByPrimaryKey(id)
+				.getDes());
+		modelAndView.setViewName("user");
+		return modelAndView;
+	}
+
+瑕疵：
+1.某些Controller层的post方法要改成get方法才可以生效
+2.分层不明确。dao层主要是数据库增删改查的。service层主要是业务逻辑。pojo主要是bean类。
+
+
+数据库插入语句：
+insert into b_user(id,name,password,level,des,tel,address) values (2,'chen','chen',2,'ShenZhen','2017','ShenZhen');

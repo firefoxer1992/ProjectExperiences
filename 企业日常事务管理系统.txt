@@ -1,0 +1,19 @@
+E:\Web开源项目\企业日常事务管理系统\01 MySQL\数据库\db_affairmanage.sql
+
+收获：
+0.PrepareStatement
+1.Factory工厂模式
+2.html的div,li,ul,ol等标签
+3.加深DAO层，DAOImpl层的理解
+  还有Service，ServiceImp
+
+需求：
+0.添加一个Login、Logout的登陆、退出的功能,退出之后员工ID变为空
+1.在数据库内插入更多员工数据;
+2.首页界面修复
+3.MsgList的首页预览，好像没什么用.
+
+
+bug:
+0.jsmenu里面的“首页”等信息不显示.待修复
+
