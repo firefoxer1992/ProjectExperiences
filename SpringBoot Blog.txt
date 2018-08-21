@@ -1,0 +1,18 @@
+技术：
+SpringBoot,vue.js
+
+收获：
+1.注解的使用，自定义注解
+2.token的验证方式
+
+
+疑问：
+1. @PostMapping、@DeleteMapping、@PutMapping、@GetMapping
+相当于增，删，改，查
+2.RequestBody和ResponseBody的区别？@PathVariable？
+3.自定义注解修饰方法 @LoginRequired，是什么意思? 
+
+sql语句：
+DROP TABLE IF EXISTS `post`; CREATE TABLE `post` ( `id` int(11) NOT NULL AUTO_INCREMENT, `author_id` int(11) NOT NULL, `title` varchar(100) NOT NULL, `content` text NOT NULL, `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, `update_time` timestamp NOT NULL , PRIMARY KEY (`id`) ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `user` ( `id` int(8) NOT NULL AUTO_INCREMENT, `name` varchar(20) NOT NULL, `password` varchar(255) NOT NULL, PRIMARY KEY (`id`), UNIQUE KEY `user_name_uindex` (`name`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

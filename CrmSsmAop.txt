@@ -1,0 +1,47 @@
+五.遇到的问题
+1.mybatis，连接多数据源。。如何通过aop自动切换数据源？
+2.如何在普通类中调用spring管理的bean类？  （ApplicationContext接口，以及对应的配置文件spring-mybatis.xml、applicationContext.xml）
+ ApplicationContext applicationContext=new ClassPathXmlApplicationContext(new String[]{"spring-mvc.xml","spring-mybatis.xml"});
+  EsbTraceService esbTraceService=(EsbTraceService)applicationContext.getBean("esbTraceService");
+3.单元测试没有覆盖到位。
+4.没有通过多线程来执行耗时的操作。  (多线程执行数据库操作，要记得数据库连接池。。不然只有一个connection的话，resultSet可能会为空)
+5.生成vso库对应的dao层、mapper文件等等。
+6.在多线程操作中，最好使用线程池。。
+7.mybatis多参数查询，BigDecimal类型显示的sql参数为问号？
+比如传递3个参数，只有第一个能识别，后面两个都为问号？
+SpringTest启动报错，报错信息:Caused by: com.sybase.jdbc3.jdbc.SybSQLException: Incorrect syntax near '?'.
+statementType="STATEMENT"代表的是啥？？
+使用#{} ：
+  <select id="getTraceListByTime"  resultMap="traceMap"  statementType="STATEMENT">
+        select MOND_ID,INTERFACE_CODE,count(*) as REQUEST_COUNT, count( CASE WHEN ERRSTR is  not null THEN 1 ELSE NULL END ) as FAILURE_COUNT
+        from #{table_name}  where 1=1
+        and INTERFACE_CODE!='Svc_ProvisionRet'
+        and CREATE_DATE>= #{startTime,jdbcType=VARCHAR}
+        <![CDATA[  and CREATE_DATE< #{endTime,jdbcType=VARCHAR}  ]]>
+        group by MOND_ID,INTERFACE_CODE
+        order by MOND_ID asc
+  </select>
+只用${} ：
+    <select id="getTraceListByTime"  resultMap="traceMap"  >
+          select MOND_ID,INTERFACE_CODE,count(*) as REQUEST_COUNT, count( CASE WHEN ERRSTR is  not null THEN 1 ELSE NULL END ) as FAILURE_COUNT
+          from ${table_name}  where 1=1
+          and INTERFACE_CODE!='Svc_ProvisionRet'
+          and CREATE_DATE>='${startTime }'
+          <![CDATA[  and CREATE_DATE<= '${endTime }'  ]]>
+          group by MOND_ID,INTERFACE_CODE
+          order by MOND_ID asc
+    </select>
+8.mybatis中传入参数给xml中的#{}，不需要加单引号。它会自动判断是否添加单引号。#{}可以避免sql注入。${}不可以。
+9.没有注意文件名，总是以为文件没有生成，其实是文件覆盖了。。
+10.数据库连接池，每次从池里取出connection，需要一个个打开然后关掉吗？还是得所有的数据库操作执行后再关掉connection?
+如果不及时关闭connection，那就会造成占用线程。。
+频繁地打开关闭会不会影响性能？不会。
+11.各种线程池的区别？用哪种线程池最好？
+12.Maven的package等操作。
+13.最好写一个PropertiesUtil，方便读取各个properties文件里面的属性。。
+14.mybatis配置多个数据源，准备vso1库的数据查询。
+UserId :410000000003168	 号码：	17050000000
+sql :    select USER_ID from vso1.INS_USER_1000 where BILL_ID='17050000000';
+通过aop设定自动切换数据源时，总是出错。。
+注意：配置MapperFactoryBean时，bean的id要写对。
+mybatis的配置文件，一定要完善。不然无法成功通过aop切换数据源。

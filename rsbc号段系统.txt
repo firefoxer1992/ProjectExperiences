@@ -1,0 +1,29 @@
+Rsbc项目总结
+一、收获
+2.IOUtils、WebUtils。
+3.自定义Exception 。
+4.拦截器，可以通过继承HandlerInterceptorAdapter这个适配器来实现。
+5.后端模板freemaker。
+6.过滤器，要用类实现Filter接口。监听器，要用类实现相关的Listener接口。
+7.@Transactional
+8.EhCache注解。@CacheEvict
+10.@Value引入properties文件内的值。
+
+
+二、遇到的问题
+1.HttpServletResponse 对象？Cookie如何理解？HttpSession对象？
+HttpServletRequest和HttpServletResponse的区别？
+HttpServletRequest是请求，可以设置参数。
+HttpServletResponse是响应，可以添加Cookie
+2.freemaker的${ message() } ,这个message()对象是从哪里来的？
+3.redirect:list.jhtml   重定向如何应用?  
+跳转页面，地址会改变，request里面的参数也会丢失。
+4.SpringMVC中的ModelMap对象？
+5.Service层的@Transactional(readOnly = true)？
+事务性
+6.The origin server did not find a current representation for the target resource or is not willing to disclose that one exists.
+配置注解驱动就可以了。
+
+三、项目理解
+1.主要的Controller类 ：BaseController、CommonController
+2.最主要的页面是list.ftl,add.ftl。

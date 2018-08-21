@@ -20,8 +20,10 @@
   ws.addCell(label);
   
 1.为什么所有的方法都 throws Exception?
+处理异常。也可通过try {}catch(){}处理。
 2.工厂模式，一个抽象类，多个具体产品类。。写成bean类也好
 3.报竣状态的常量池。
+最好不要使用魔法值。。
 4.添加模组变更1010，DoneCode最后一位查询,WriteExcel等功能
 5.如何改进？
 if(str.length()==11 && StringUtils.isNumeric(str)) {
